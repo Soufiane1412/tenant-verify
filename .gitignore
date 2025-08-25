@@ -1,0 +1,3 @@
+tenant-verify
+*.env
+.DS_Store
