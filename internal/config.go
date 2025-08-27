@@ -3,8 +3,6 @@ package config
 import (
 	"log"
 	"os"
-
-	"golang.org/x/tools/go/analysis/passes/bools"
 )
 
 // Load holds all our app configuration, and in Plat Eng CONFIGURATION is everything
