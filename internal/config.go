@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os"
+	"strconv"
 )
 
 // Load holds all our app configuration, and in Plat Eng CONFIGURATION is everything
@@ -25,6 +26,7 @@ func Load() *Config {
 		Timeout:        getEnvAsInt("TIMEOUT_SECONDS", 30),
 	}
 }
+
 // getEnv reads an env var with a fallback default
 // This pattern prevents nil/undefined errors that plague JS
 func getEnv(key, defaultValue string) string {
@@ -35,12 +37,13 @@ func getEnv(key, defaultValue string) string {
 
 	return defaultValue
 }
+
 // getEnvAsInt reads an int env var
 // Platform Eng deal with numbers for tuning performance
 func getEnvAsInt(key string, defaultValue int) int {
 	valueStr := getEnv(key, "")
 	if valueStr == "" {
-		retrun defaultValue
+		return defaultValue
 	}
 
 	if value, err := strconv.Atoi(valueStr); err == nil {
@@ -54,7 +57,6 @@ func getEnvAsInt(key string, defaultValue int) int {
 
 // Validate ensures Configuration is Production-ready
 // this prevents shipping broken config to production
-
 
 func (c *Config) Validate() error {
 	// Ports below 1024 require root privileges - security risk
@@ -90,7 +92,7 @@ func (c *Config) Validate() error {
 // IsProduction as a helper method - notice (c *Config) syntax
 // This is a method on the config struct, like class methods in OOP
 
-func(c *Config) IsProduction() bool {
+func (c *Config) IsProduction() bool {
 	return c.Environment == "production"
 }
 
